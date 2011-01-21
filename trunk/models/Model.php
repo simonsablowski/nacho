@@ -1,6 +1,6 @@
 <?php
 
-abstract class Model {
+abstract class Model extends Application {
 	protected $tableName = NULL;
 	protected $primaryKey = 'id';
 	protected $fields = array();
@@ -28,6 +28,9 @@ abstract class Model {
 		
 		if ($this->isField($property)) {
 			$isField = TRUE;
+		} else if ($this->isField($propertyCapitalized)) {
+			$isField = TRUE;
+			$property = $propertyCapitalized;
 		} else if ($this->isField($propertyCapitalized . 'Id')) {
 			$isField = TRUE;
 			$property = $propertyCapitalized . 'Id';
@@ -36,12 +39,12 @@ abstract class Model {
 		
 		switch ($operation) {
 			case 'get':
-				if ($isField && !$hasLoader) {
-					return $this->getData($property);
-				} else if ($isField && $hasLoader) {
+				if ($isField && $hasLoader) {
 					$loaderName = 'load' . $property;
 					if (is_null($this->$property)) $this->$loaderName();
 					return $this->$property;
+				} else if ($isField) {
+					return $this->getData($property);
 				} else if ($propertyExists) {
 					return $this->$property;
 				}
@@ -52,17 +55,17 @@ abstract class Model {
 					return $this->$property == 'yes';
 				}
 			case 'has':
-				if ($isField && !$hasLoader) {
-					return $this->getData($property) != FALSE;
-				} else if ($isField & $hasLoader) {
+				if ($isField & $hasLoader) {
 					$loaderName = 'load' . $property;
 					if (is_null($this->$property)) $this->$loaderName();
 					return is_object($this->$property);
+				} else if ($isField) {
+					return $this->getData($property) != FALSE;
 				} else if ($propertyExists) {
 					return $this->$property != FALSE;
 				}
 			case 'load':
-				if ($isField) {
+				if ($isField & $hasLoader) {
 					$finderName = $property . 'Finder';
 					$getterName = 'get' . $property . 'Id';
 					$this->$property = $finderName::find($this->$getterName());
@@ -198,7 +201,7 @@ abstract class Model {
 			$Object = $finderName::find($this->getPrimaryKeyValue(), $condition);
 			$Object->setData($this->getData());
 			$Object->update();
-		} catch (Exception $e) {
+		} catch (Exception $Exception) {
 			$Object = new $modelName($this->getData());
 			$Object->save();
 		}
@@ -206,10 +209,5 @@ abstract class Model {
 	
 	public function isModified() {
 		return $this->isField('modified') && $this->getModified() != '0000-00-00 00:00:00';
-	}
-	
-	//TODO: move this to mother class
-	protected function print($line, $arguments = array()) {
-		vprintf("\n" . $line, is_array($arguments) ? $arguments : array($arguments));
 	}
 }

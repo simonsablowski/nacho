@@ -1,6 +1,6 @@
 <?php
 
-abstract class Finder {
+abstract class Finder extends Application {
 	protected static $tableName = NULL;
 	protected static $primaryKey = 'id';
 	protected static $defaultCondition = array('status' => 'active');
@@ -14,40 +14,26 @@ abstract class Finder {
 		$operation = $methodParts[0][0];
 		array_shift($methodParts[0]);
 		
-		if ($operation == 'find') {
-			array_shift($methodParts[0]);
-			$fieldNames = implode('', $methodParts[0]);
-			
-			$fields = explode('And', implode('', $methodParts[0]));
-			foreach ($fields as $n => $field) {
-				$fields[$n] = strtolower(substr($field, 0, 1)) . substr($field, 1);
-			}
-			
-			$values = $parameters;
-			$condition = NULL;
-			if ((!is_array(pos($values)) && count($values) == count($fields) + 1)
-					|| (is_array(pos($values) && count($values) == 2))) {
-				$condition = end($values);
-				array_pop($values);
-			}
-			if (is_array(pos($values)) && count($values) == 1) $values = pos($values);
-			
-			return self::findBy($fields, $values, $condition);
-		} else {
-			$name = implode('', $methodParts[0]);
-			$property = strtolower(substr($name, 0, 1)) . substr($name, 1);
-			if (!property_exists($this, $property)) throw new Exception('Undeclared property', $property);
-			
-			switch ($operation) {
-				case 'get':
-					return self::$property;
-				case 'is':
-					return self::$property == 'yes';
-				case 'set':
-					self::$property = $parameters[0];
-					return;
-			}
+		if ($operation != 'find') return parent::__class($method, $paramaters);
+		
+		array_shift($methodParts[0]);
+		$fieldNames = implode('', $methodParts[0]);
+		
+		$fields = explode('And', implode('', $methodParts[0]));
+		foreach ($fields as $n => $field) {
+			$fields[$n] = strtolower(substr($field, 0, 1)) . substr($field, 1);
 		}
+		
+		$values = $parameters;
+		$condition = NULL;
+		if ((!is_array(pos($values)) && count($values) == count($fields) + 1)
+				|| (is_array(pos($values) && count($values) == 2))) {
+			$condition = end($values);
+			array_pop($values);
+		}
+		if (is_array(pos($values)) && count($values) == 1) $values = pos($values);
+		
+		return self::findBy($fields, $values, $condition);
 	}
 	
 	public static function getClassName() {
