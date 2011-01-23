@@ -34,12 +34,11 @@
 						</th>
 						<th class="title">
 							<? echo $SpecialFood::getName(); ?>
-							<span class="price"><? echo $SpecialFood::getPrice(); ?></span>
-							
-							<? if ($SpecialFood::getNutritionFacts()): ?><br/>
-							<span class="description">Nutrition facts: <? echo $SpecialFood::getNutritionFacts(); ?></span><? endif; ?>
-						</td>
 
+							<span class="price"><? echo $SpecialFood::getPrice(); ?></span>
+							<? if ($SpecialFood::getNutritionFacts()): ?><br/><span class="description">Nutrition facts: <? echo $SpecialFood::getNutritionFacts(); ?></span><? endif; ?>
+
+						</td>
 					</tr>
 <? endforeach; ?>
 				</tbody>
