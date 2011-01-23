@@ -1,5 +1,5 @@
 <?php
 
-class NachosTijuana extends Nachos {
+class NachosTijuana extends NachosCostlier {
 	protected static $name = 'Nachos Tijuana';
 }
