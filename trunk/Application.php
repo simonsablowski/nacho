@@ -4,8 +4,8 @@ class Application {
 	protected $configuration = array();
 	private $ErrorHandler = NULL;
 	private $Request = NULL;
-	private $OutputBuffer = NULL;
-	private $Session = NULL;
+	protected $OutputBuffer = NULL;
+	protected $Session = NULL;
 	private $Controller = NULL;
 	
 	protected static function resolveMethod($className, $method) {

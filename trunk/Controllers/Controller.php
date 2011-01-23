@@ -1,8 +1,6 @@
 <?php
 
 abstract class Controller extends Application {
-	protected $Session = NULL;
-	
 	public function __construct() {
 		
 	}
