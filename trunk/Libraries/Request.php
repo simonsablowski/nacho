@@ -25,11 +25,12 @@ class Request extends Application {
 	
 	public function analyze() {
 		$segments = explode('/', $this->resolveQuery());
+		if (is_string($segments)) $segments = array($segments);
 		
-		if (isset($segments[0])) $this->setController($segments[0]);
+		if (isset($segments[0]) && $segments[0]) $this->setController($segments[0]);
 		else throw new FatalError('No controller defined', $segments);
 		
-		if (isset($segments[1])) $this->setAction($segments[1]);
+		if (isset($segments[1]) && $segments[1]) $this->setAction($segments[1]);
 		else throw new FatalError('No action defined', $segments);
 		
 		$this->setParameters(array_slice($segments, 2));
