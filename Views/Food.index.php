@@ -16,7 +16,7 @@
 			<ul>
 <? foreach ($Food as $SpecialFood): ?>
 				<li>
-					<? echo $SpecialFood::getName(); ?> <small>(<? echo $SpecialFood::getName(TRUE); ?>)</small><br />
+					<? echo $SpecialFood::getName(); ?> <small>&ndash; <? echo $SpecialFood::getPrice(); ?></small><br />
 					<? if ($SpecialFood::getNutritionFacts()): ?>Nutrition facts: <? echo $SpecialFood::getNutritionFacts(); ?><? endif; ?>
 
 				</li>
@@ -24,6 +24,9 @@
 			</ul>
 			<p>
 				If you would like us to extend our menu, feel free to create new Model classes which extend the Food Model.
+			</p>
+			<p>
+				We will gladly provide you which richly populated objects as soon as you give us information about your needs easily by creating Model extending classes.
 			</p>
 		</div>
 	</body>
