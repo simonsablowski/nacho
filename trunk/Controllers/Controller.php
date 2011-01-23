@@ -9,6 +9,12 @@ abstract class Controller extends Application {
 	}
 	
 	protected function performAction($actionName, $parameters) {
-		call_user_func_array(array($this, $actionName), $parameters);
+		$ReflectionMethod = new ReflectionMethod($this, $actionName);
+		
+		if (count($ReflectionMethod->getParameters()) <= count($parameters)) {
+			call_user_func_array(array($this, $actionName), $parameters);
+		} else {
+			throw new FatalError('Missing parameters', array('Controller' => $this->getClassName(), 'Action' => $actionName, 'Parameters' => $parameters));
+		}
 	}
 }

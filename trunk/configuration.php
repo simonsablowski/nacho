@@ -9,8 +9,8 @@ $configuration = array(
 		'user' => 'root',
 		'password' => ''
 	),
-	'Request' => array(
-		'defaultController' => 'Coaching',
-		'defaultAction' => 'index'
+	'defaultQuery' => 'index',
+	'aliasQueries' => array(
+		'index' => 'Home/index'
 	)
 );
