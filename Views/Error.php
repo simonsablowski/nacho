@@ -6,12 +6,50 @@
 		<title>Error</title>
 	</head>
 	<body>
-		<pre>
-			<type><? echo $Error->getType(); ?></type>
-			<code><? echo $Error->getCode(); ?></code>
-			<message><? echo $Error->getMessage(); ?></message>
-			<details><? print_r($Error->getDetails()); ?></details>
-			<trace><? echo $Error->getTraceAsString(); ?></trace>
-		</pre>
+		<dl>
+			<dt>
+				Type:
+			</dt>
+			<dd>
+				<? echo $Error->getType(); ?>
+
+			</dd>
+<? if ($Error->getCode()): ?>
+			<dt>
+				Code:
+			</dt>
+			<dd>
+				<? echo $Error->getCode(); ?>
+
+			</dd>
+<? endif; ?>
+<? if ($Error->getMessage()): ?>
+			<dt>
+				Message:
+			</dt>
+			<dd>
+				<? echo $Error->getMessage(); ?>
+
+			</dd>
+<? endif; ?>
+<? if ($Error->getDetails()): ?>
+			<dt>
+				Details:
+			</dt>
+			<dd>
+				<? print_r($Error->getDetails()); ?>
+
+			</dd>
+<? endif; ?>
+<? if ($Error->getTraceAsString()): ?>
+			<dt>
+				Trace:
+			</dt>
+			<dd>
+<? echo $Error->getTraceAsString(); ?>
+
+			</dd>
+<? endif; ?>
+		</dl>
 	</body>
 </html>
