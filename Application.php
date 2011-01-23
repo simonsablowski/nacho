@@ -78,7 +78,9 @@ class Application {
 	}
 	
 	final private function setup($query) {
-		header($this->getConfiguration('header'));
+		if ($header = $this->getConfiguration('header')) {
+			header($header);
+		}
 		
 		$this->initializeErrorHandler();
 		$this->initializeRequest($query);
