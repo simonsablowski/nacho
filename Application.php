@@ -60,16 +60,15 @@ class Application {
 		}
 	}
 	
-	public function __construct($configuration, $query) {
+	public function __construct($configuration) {
 		$this->setConfiguration($configuration);
-		$this->analyzeRequest($query);
 	}
 	
-	final public function run() {
+	final public function run($query) {
 		try {
 			$this->setOutputBuffer(new OutputBuffer);
 			$this->getOutputBuffer()->start();
-			$this->setup();
+			$this->setup($query);
 			$this->getController()->performAction($this->getRequest()->getAction(), $this->getRequest()->getParameters());
 			$this->getOutputBuffer()->flush();
 		} catch (Error $Error) {
@@ -78,18 +77,19 @@ class Application {
 		}
 	}
 	
-	final private function setup() {
+	final private function setup($query) {
 		header($this->getConfiguration('header'));
 		
 		$this->initializeErrorHandler();
+		$this->initializeRequest($query);
 		$this->initializeSession();
 		$this->initializeDatabase();
 		$this->initializeController();
 	}
 	
-	final private function analyzeRequest($query) {
+	final private function initializeRequest($query) {
 		$this->setRequest(new Request($query));
-		$this->getRequest()->setConfiguration($this->getConfiguration('Request'));
+		$this->getRequest()->setConfiguration($this->getConfiguration());
 		$this->getRequest()->analyze();
 	}
 	
@@ -116,6 +116,10 @@ class Application {
 		$this->setController(new $ControllerName);
 		$this->getController()->setConfiguration($this->getConfiguration());
 		$this->getController()->setSession($this->getSession());
+	}
+	
+	protected static function getClassName() {
+		return get_called_class();
 	}
 	
 	protected function getConfiguration($field = NULL) {

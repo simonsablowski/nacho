@@ -18,11 +18,7 @@ abstract class Model extends Application {
 	);
 	protected $data = array();
 	
-	public static function getClassName() {
-		return get_called_class();
-	}
-	
-	public static function getTableName() {
+	protected static function getTableName() {
 		return strtolower(self::getClassName());
 	}
 	
