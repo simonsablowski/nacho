@@ -46,20 +46,24 @@
 #Food .head {
 	background-color: #777;
 	color: #fff;
-	margin-bottom: 2em;
 }
 
 #Food .number {
 	width: 2em;
 }
 
-#Food .title {
+#Food .data {
 	clear: both;
 	font-weight: bold;
+	padding: 0.25em 1em;
 }
 
-#Food .title .price {
+#Food .data .price {
 	float: right;
+}
+
+#Food .body {
+	padding: 0 2em;
 }
 
 #Food .body .odd {
