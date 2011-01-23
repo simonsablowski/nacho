@@ -6,10 +6,8 @@ class FoodController extends Controller {
 		if (is_dir($dir = $this->getApplication()->getPath() . 'Models')) {
 			if ($dh = opendir($dir)) {
 				while (($file = readdir($dh)) !== FALSE) {
-					if (!in_array($file, array('.', '..', '.svn'))) {
-						if (class_exists($name = strstr($file, '.', TRUE)) && is_subclass_of($name, 'Food')) {
-							$Food[] = $name;
-						}
+					if (($name = strstr($file, '.', TRUE)) && class_exists($name) && is_subclass_of($name, 'Food')) {
+						$Food[] = $name;
 					}
 				}
 				closedir($dh);
