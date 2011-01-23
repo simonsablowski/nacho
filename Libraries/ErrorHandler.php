@@ -14,6 +14,9 @@ class ErrorHandler extends Application {
 			case 'Warning':
 			case 'Fatal':
 				$this->getSession()->setData('Error', $Error);
+				$this->displayView('Error.php', array(
+					'Error' => $Error
+				));
 				break;
 		}
 	}
