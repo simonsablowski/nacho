@@ -1,7 +1,7 @@
 <?php
 
 $configuration = array(
-	'baseDirectory' => '/nacho/public/',
+	'baseDirectory' => '/nacho/',
 	'Database' => array(
 		'type' => 'MySql',
 		'host' => 'localhost',
@@ -13,5 +13,6 @@ $configuration = array(
 	'aliasQueries' => array(
 		'index' => 'Food/index'
 	),
-	'debugMode' => TRUE
+	// 'debugMode' => TRUE
+	'debugMode' => FALSE
 );
