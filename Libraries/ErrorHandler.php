@@ -1,9 +1,6 @@
 <?php
 
 class ErrorHandler extends Application {
-	protected $OutputBuffer = NULL;
-	protected $Session = NULL;
-	
 	public function __construct() {
 		
 	}
