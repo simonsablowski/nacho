@@ -41,12 +41,12 @@
 
 			</dd>
 <? endif; ?>
-<? if ($Error->getTraceAsString()): ?>
+<? if ($Error->getTrace()): ?>
 			<dt>
 				Trace:
 			</dt>
 			<dd>
-<? echo $Error->getTraceAsString(); ?>
+<? var_dump($Error->getTrace()); ?>
 
 			</dd>
 <? endif; ?>
