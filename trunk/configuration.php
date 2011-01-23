@@ -10,6 +10,6 @@ $configuration = array(
 	),
 	'defaultQuery' => 'index',
 	'aliasQueries' => array(
-		'index' => 'Home/index'
+		'index' => 'Food/index'
 	)
 );
