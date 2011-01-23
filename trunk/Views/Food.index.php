@@ -17,10 +17,10 @@
 			<table id="Food" class="content">
 				<thead class="head">
 					<tr>
-						<th class="title number">
-							#
+						<th class="data number">
+							&nbsp;
 						</th>
-						<th class="title">
+						<th class="data">
 							Dish
 							<span class="price">Price</span>
 						</th>
@@ -29,10 +29,10 @@
 				<tbody class="body">
 <? foreach ($Food as $n => $SpecialFood): ?>
 					<tr class="<? echo $n % 2 ? 'even' : 'odd'; ?>">
-						<th class="title number">
-							<? echo $n + 1; ?>.
-						</th>
-						<th class="title">
+						<td class="data number">
+							<? echo $n + 1; ?>
+						</td>
+						<td class="data">
 							<? echo $SpecialFood::getName(); ?>
 
 							<span class="price"><? echo $SpecialFood::getPrice(); ?></span>
@@ -47,7 +47,7 @@
 				If you would like us to extend our menu, feel free to create new <em>Model</em> classes which extend the <em>Food</em> Model.
 			</p>
 			<p>
-				We will gladly provide you which richly populated objects as soon as you give us information about your needs easily by creating Model extending classes.
+				We will gladly provide you which richly populated objects as soon as you give us information about your needs, simply by creating Model extending classes.
 			</p>
 		</div>
 	</body>
