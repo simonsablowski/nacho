@@ -27,7 +27,7 @@
 }
 
 #document dd {
-	display: block;
+	float: left;
 }
 
 #document .content {
