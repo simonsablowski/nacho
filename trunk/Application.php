@@ -82,17 +82,16 @@ class Application {
 			header($header);
 		}
 		
+		$this->initializeSession();
 		$this->initializeErrorHandler();
 		$this->initializeRequest($query);
-		$this->initializeSession();
 		$this->initializeDatabase();
 		$this->initializeController();
 	}
 	
-	final private function initializeRequest($query) {
-		$this->setRequest(new Request($query));
-		$this->getRequest()->setConfiguration($this->getConfiguration());
-		$this->getRequest()->analyze();
+	final private function initializeSession() {
+		$this->setSession(new Session);
+		$this->getSession()->start();
 	}
 	
 	final private function initializeErrorHandler() {
@@ -101,9 +100,10 @@ class Application {
 		$this->getErrorHandler()->setSession($this->getSession());
 	}
 	
-	final private function initializeSession() {
-		$this->setSession(new Session);
-		$this->getSession()->start();
+	final private function initializeRequest($query) {
+		$this->setRequest(new Request($query));
+		$this->getRequest()->setConfiguration($this->getConfiguration());
+		$this->getRequest()->analyze();
 	}
 	
 	final private function initializeDatabase() {

@@ -19,7 +19,7 @@ class Request extends Application {
 	}
 	
 	protected function resolveQuery() {
-		$query = !is_null($this->getQuery()) ? $this->getQuery() : $this->getConfiguration('defaultQuery');
+		$query = $this->getQuery() ? $this->getQuery() : $this->getConfiguration('defaultQuery');
 		return $this->getAlias($query);
 	}
 	
