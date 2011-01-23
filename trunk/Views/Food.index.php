@@ -16,9 +16,9 @@
 			<ul>
 <? foreach ($Food as $SpecialFood): ?>
 				<li>
-					<? echo $SpecialFood::getName(); ?><br/>
-
+					<? echo $SpecialFood::getName(); ?><br />
 					<? if ($SpecialFood::getNutritionFacts()): ?>Nutrition facts: <? echo $SpecialFood::getNutritionFacts(); ?><? endif; ?>
+
 				</li>
 <? endforeach; ?>
 			</ul>
