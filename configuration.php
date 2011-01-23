@@ -12,5 +12,6 @@ $configuration = array(
 	'defaultQuery' => 'index',
 	'aliasQueries' => array(
 		'index' => 'Food/index'
-	)
+	),
+	'debugMode' => TRUE
 );
