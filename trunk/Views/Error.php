@@ -4,52 +4,63 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta http-equiv="Content-Language" content="en"/>
 		<title>Error</title>
+		<link href="<? echo $this->getApplication()->getConfiguration('baseDirectory'); ?>css/style.css" rel="stylesheet" title="Default" type="text/css" />
 	</head>
 	<body>
-		<dl>
-			<dt>
-				Type:
-			</dt>
-			<dd>
-				<? echo $Error->getType(); ?>
+		<div id="document">
+			<h1>
+				Unfortunately,
+			</h1>
+			<h2>
+				we encountered an error:
+			</h2>
+			<dl class="content">
+				<dt>
+					Type:
+				</dt>
+				<dd>
+					<? echo $Error->getType(); ?>
 
-			</dd>
+				</dd>
 <? if ($Error->getCode()): ?>
-			<dt>
-				Code:
-			</dt>
-			<dd>
-				<? echo $Error->getCode(); ?>
+				<dt>
+					Code:
+				</dt>
+				<dd>
+					<? echo $Error->getCode(); ?>
 
-			</dd>
+				</dd>
 <? endif; ?>
 <? if ($Error->getMessage()): ?>
-			<dt>
-				Message:
-			</dt>
-			<dd>
-				<? echo $Error->getMessage(); ?>
+				<dt>
+					Message:
+				</dt>
+				<dd>
+					<? echo $Error->getMessage(); ?>
 
-			</dd>
+				</dd>
 <? endif; ?>
+<? if ($this->getApplication()->getConfiguration('debugMode')): ?>
 <? if ($Error->getDetails()): ?>
-			<dt>
-				Details:
-			</dt>
-			<dd>
-				<? print_r($Error->getDetails()); ?>
+				<dt>
+					Details:
+				</dt>
+				<dd>
+					<? print_r($Error->getDetails()); ?>
 
-			</dd>
+				</dd>
 <? endif; ?>
 <? if ($Error->getTrace()): ?>
-			<dt>
-				Trace:
-			</dt>
-			<dd>
+				<dt>
+					Trace:
+				</dt>
+				<dd>
 <? var_dump($Error->getTrace()); ?>
 
-			</dd>
+				</dd>
 <? endif; ?>
-		</dl>
+<? endif; ?>
+			</dl>
+		</div>
 	</body>
 </html>

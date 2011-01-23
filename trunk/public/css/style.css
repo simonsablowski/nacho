@@ -5,13 +5,11 @@
 }
 
 #document {
-	margin: auto;
-	width: 50em;
+	margin: 2em 5em;
 }
 
 #document h1 {
 	font-size: 200%;
-	padding: 1em 0 0;
 }
 
 #document h2 {
@@ -22,14 +20,27 @@
 	font-style: italic;
 }
 
-#Food {
-	border: 1px solid #666;
-	margin: 2em 0;
-	width: 50em;
+#document dt {
+	clear: left;
+	float: left;
+	width: 10em;
 }
 
-#Food * {
+#document dd {
+	display: block;
+}
+
+#document .content {
+	margin: 2em 0;
+	width: 100%;
+}
+
+#document .content * {
 	padding: 0.25em;
+}
+
+#Food {
+	border: 1px solid #666;
 }
 
 #Food .head {

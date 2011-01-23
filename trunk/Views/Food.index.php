@@ -14,7 +14,7 @@
 			<h2>
 				currently we serve:
 			</h2>
-			<table id="Food">
+			<table id="Food" class="content">
 				<thead class="head">
 					<tr>
 						<th class="title number">
