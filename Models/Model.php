@@ -2,8 +2,12 @@
 
 abstract class Model extends Application {
 	protected static $primaryKey = 'id';
-	protected static $defaultCondition = array('status' => 'active');
-	protected static $defaultSorting = array('created');
+	protected static $defaultCondition = array(
+		'status' => 'active'
+	);
+	protected static $defaultSorting = array(
+		'created'
+	);
 	protected $fields = array();
 	protected $requiredFields = array();
 	protected $hiddenFields = array(
@@ -36,8 +40,7 @@ abstract class Model extends Application {
 		
 		$values = $parameters;
 		$condition = NULL;
-		if ((!is_array(pos($values)) && count($values) == count($fields) + 1)
-				|| (is_array(pos($values) && count($values) == 2))) {
+		if ((!is_array(pos($values)) && count($values) == count($fields) + 1) || (is_array(pos($values) && count($values) == 2))) {
 			$condition = end($values);
 			array_pop($values);
 		}

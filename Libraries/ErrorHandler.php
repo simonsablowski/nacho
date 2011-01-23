@@ -11,14 +11,9 @@ class ErrorHandler extends Application {
 	public function handle($Error) {
 		switch ($Error->getType()) {
 			default:
-			// case 'Warning':
-				// $this->getSession()->setData('Error', $Error);
-				// break;
+			case 'Warning':
 			case 'Fatal':
-				$this->getOutputBuffer()->clean();
-				$this->displayView('Error.xml', array(
-					'Error' => $Error
-				));
+				$this->getSession()->setData('Error', $Error);
 				break;
 		}
 	}
