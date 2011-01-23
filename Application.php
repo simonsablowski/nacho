@@ -1,12 +1,14 @@
 <?php
 
 class Application {
+	private $path = NULL;
 	protected $configuration = array();
 	private $ErrorHandler = NULL;
 	private $Request = NULL;
 	protected $OutputBuffer = NULL;
 	protected $Session = NULL;
 	private $Controller = NULL;
+	protected $Application = NULL;
 	
 	protected static function resolveMethod($className, $method) {
 		preg_match_all('/(^|[A-Z]{1})([a-z]*)/', $method, $methodParts);
@@ -61,12 +63,20 @@ class Application {
 	}
 	
 	public function __construct($configuration) {
+		$this->setPath(dirname(__FILE__) . '/');
 		$this->setConfiguration($configuration);
 	}
 	
-	final public function run($query) {
+	private function getInstance($className, $parameters = NULL) {
+		$Instance = new $className($parameters);
+		$Instance->setApplication($this);
+		
+		return $Instance;
+	}
+	
+	public function run($query) {
 		try {
-			$this->setOutputBuffer(new OutputBuffer);
+			$this->setOutputBuffer($this->getInstance('OutputBuffer'));
 			$this->getOutputBuffer()->start();
 			$this->setup($query);
 			$this->getController()->performAction($this->getRequest()->getAction(), $this->getRequest()->getParameters());
@@ -77,7 +87,7 @@ class Application {
 		}
 	}
 	
-	final private function setup($query) {
+	private function setup($query) {
 		if ($header = $this->getConfiguration('header')) {
 			header($header);
 		}
@@ -89,33 +99,33 @@ class Application {
 		$this->initializeController();
 	}
 	
-	final private function initializeSession() {
-		$this->setSession(new Session);
+	private function initializeSession() {
+		$this->setSession($this->getInstance('Session'));
 		$this->getSession()->start();
 	}
 	
-	final private function initializeErrorHandler() {
-		$this->setErrorHandler(new ErrorHandler);
+	private function initializeErrorHandler() {
+		$this->setErrorHandler($this->getInstance('ErrorHandler'));
 		$this->getErrorHandler()->setOutputBuffer($this->getOutputBuffer());
 		$this->getErrorHandler()->setSession($this->getSession());
 	}
 	
-	final private function initializeRequest($query) {
-		$this->setRequest(new Request($query));
+	private function initializeRequest($query) {
+		$this->setRequest($this->getInstance('Request', $query));
 		$this->getRequest()->setConfiguration($this->getConfiguration());
 		$this->getRequest()->analyze();
 	}
 	
-	final private function initializeDatabase() {
+	private function initializeDatabase() {
 		Database::initialize($this->getConfiguration('Database'));
 		Database::connect();
 	}
 	
-	final private function initializeController() {
+	private function initializeController() {
 		$ControllerName = $this->getRequest()->getController() . 'Controller';
 		if (!class_exists($ControllerName)) throw new FatalError('Invalid controller', $ControllerName);
 		
-		$this->setController(new $ControllerName);
+		$this->setController($this->getInstance($ControllerName));
 		$this->getController()->setConfiguration($this->getConfiguration());
 		$this->getController()->setSession($this->getSession());
 	}
