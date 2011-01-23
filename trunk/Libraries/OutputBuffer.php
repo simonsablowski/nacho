@@ -6,14 +6,14 @@ class OutputBuffer extends Application {
 	}
 	
 	public function start() {
-		ob_start();
+		return ob_start();
 	}
 	
 	public function clean() {
-		ob_clean();
+		return ob_clean();
 	}
 	
 	public function flush() {
-		ob_flush();
+		return ob_flush();
 	}
 }
