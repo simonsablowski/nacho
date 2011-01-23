@@ -1,6 +1,8 @@
 RewriteEngine on
 
-RewriteRule ^(css|img|js)/(.+)$ /public/$1/$2 [L,QSA]
+RewriteBase /
+
+RewriteRule ^(css|img|js)/(.+)$ public/$1/$2 [L,QSA]
 RewriteCond $1 !^robots\.txt
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
