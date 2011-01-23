@@ -1,6 +1,7 @@
 <?php
 
 $configuration = array(
+	'baseDirectory' => '/nacho/public/',
 	'Database' => array(
 		'type' => 'MySql',
 		'host' => 'localhost',

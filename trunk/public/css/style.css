@@ -1,0 +1,65 @@
+@import 'standards.css';
+
+* {
+	text-align: justify;
+}
+
+#document {
+	margin: auto;
+	width: 50em;
+}
+
+#document h1 {
+	font-size: 200%;
+	padding: 1em 0 0;
+}
+
+#document h2 {
+	font-size: 150%;
+}
+
+#document em {
+	font-style: italic;
+}
+
+#Food {
+	border: 1px solid #666;
+	margin: 2em 0;
+	width: 50em;
+}
+
+#Food * {
+	padding: 0.25em;
+}
+
+#Food .head {
+	background-color: #777;
+	color: #fff;
+	margin-bottom: 2em;
+}
+
+#Food .number {
+	width: 2em;
+}
+
+#Food .title {
+	clear: both;
+	font-weight: bold;
+}
+
+#Food .title .price {
+	float: right;
+}
+
+#Food .body .odd {
+	background-color: #eee;
+}
+
+#Food .body .even {
+	background-color: #ddd;
+}
+
+#Food .body .description {
+	font-size: 75%;
+	font-weight: normal;
+}
