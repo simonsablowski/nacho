@@ -62,11 +62,11 @@
 	float: right;
 }
 
-#Food .body .odd {
+#Food .body .even {
 	background-color: #eee;
 }
 
-#Food .body .even {
+#Food .body .odd {
 	background-color: #ddd;
 }
 

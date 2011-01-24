@@ -28,7 +28,7 @@
 				</thead>
 				<tbody class="body">
 <? foreach ($Food as $n => $SpecialFood): ?>
-					<tr class="<? echo $n % 2 ? 'even' : 'odd'; ?>">
+					<tr class="<? echo $n % 2 ? 'odd' : 'even'; ?>">
 						<td class="data number">
 							<? echo $n + 1; ?>
 						</td>
