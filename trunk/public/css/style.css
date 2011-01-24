@@ -5,7 +5,7 @@
 }
 
 #document {
-	margin: 2em 5em;
+	margin: 2% 4%;
 }
 
 #document h1 {
@@ -13,7 +13,7 @@
 }
 
 #document h2 {
-	font-size: 150%;
+	font-size: 125%;
 }
 
 #document em {
@@ -23,20 +23,20 @@
 #document dt {
 	clear: left;
 	float: left;
-	width: 10em;
+	width: 8%;
 }
 
 #document dd {
 	float: left;
 }
 
-#document .content {
-	margin: 2em 0;
-	width: 100%;
+#document * {
+	padding: 0.25%;
 }
 
-#document .content * {
-	padding: 0.25em;
+#document .content {
+	margin: 2% 0;
+	width: 100%;
 }
 
 #Food {
@@ -49,21 +49,17 @@
 }
 
 #Food .number {
-	width: 2em;
+	width: 4%;
 }
 
 #Food .data {
 	clear: both;
 	font-weight: bold;
-	padding: 0.25em 1em;
+	padding: 0.25% 2%;
 }
 
 #Food .data .price {
 	float: right;
-}
-
-#Food .body {
-	padding: 0 2em;
 }
 
 #Food .body .odd {
