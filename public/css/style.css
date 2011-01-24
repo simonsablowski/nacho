@@ -73,4 +73,5 @@
 #Food .body .description {
 	font-size: 75%;
 	font-weight: normal;
+	padding: 0;
 }
