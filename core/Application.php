@@ -63,8 +63,8 @@ class Application {
 	}
 	
 	public function __construct($configuration) {
-		$this->setPath(dirname(__FILE__) . '/');
 		$this->setConfiguration($configuration);
+		$this->setPath($path = $this->getPath() ? $path : dirname(__FILE__) . '/../application/');
 	}
 	
 	private function getInstance($className, $parameters = NULL) {
@@ -140,6 +140,6 @@ class Application {
 	
 	protected function displayView($View, $variables = array()) {
 		extract($variables);		
-		include dirname(__FILE__) . '/Views/' . $View;
+		include $this->getApplication()->getPath() . 'views/' . $View;
 	}
 }

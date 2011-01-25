@@ -13,6 +13,6 @@ $configuration = array(
 	'aliasQueries' => array(
 		'index' => 'Food/index'
 	),
-	// 'debugMode' => TRUE
-	'debugMode' => FALSE
+	'debugMode' => TRUE
+	// 'debugMode' => FALSE
 );

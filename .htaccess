@@ -1,9 +1,11 @@
 RewriteEngine on
 
-RewriteBase /
+RewriteBase /nacho/application/web
 
-RewriteRule ^(css|img|js)/(.+)$ public/$1/$2 [L,QSA]
+RewriteRule ^(css|img|js)/(.+)$ $1/$2 [L,QSA]
+
 RewriteCond $1 !^robots\.txt
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+
 RewriteRule ^(.*)$ index.php?query=$1 [L,QSA]
