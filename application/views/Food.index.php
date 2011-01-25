@@ -47,7 +47,7 @@
 				If you would like us to extend our menu, feel free to create new <em>Model</em> classes which extend the <em>Food</em> Model.
 			</p>
 			<p>
-				We will gladly provide you which richly populated objects as soon as you give us information about your needs, simply by creating Model extending classes.
+				We will gladly provide you with richly populated objects as soon as you give us information about your needs, simply by creating Model extending classes.
 			</p>
 		</div>
 	</body>
