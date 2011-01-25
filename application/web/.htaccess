@@ -1,11 +1,8 @@
 RewriteEngine on
 
-RewriteBase /nacho/application/web
-
-RewriteRule ^(css|img|js)/(.+)$ $1/$2 [L,QSA]
-
 RewriteCond $1 !^robots\.txt
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !=/favicon.ico
 
 RewriteRule ^(.*)$ index.php?query=$1 [L,QSA]

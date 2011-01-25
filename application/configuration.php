@@ -1,11 +1,9 @@
 <?php
 
 $configuration = array(
-	'baseDirectory' => '/nacho/',
-	'defaultQuery' => 'index',
-	'aliasQueries' => array(
-		'index' => 'Food/index'
-	),
+	'baseDirectory' => '/nacho/application/web/',
+	'defaultQuery' => 'Food/index',
+	'aliasQueries' => array(),
 	'debugMode' => TRUE
 	// 'debugMode' => FALSE
 );
