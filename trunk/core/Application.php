@@ -88,9 +88,7 @@ class Application {
 	}
 	
 	private function setup($query) {
-		if ($header = $this->getConfiguration('header')) {
-			header($header);
-		}
+		if ($header = $this->getConfiguration('header')) header($header);
 		
 		$this->initializeSession();
 		$this->initializeErrorHandler();
@@ -117,15 +115,17 @@ class Application {
 	}
 	
 	private function initializeDatabase() {
-		Database::initialize($this->getConfiguration('Database'));
+		if (!$configuration = $this->getConfiguration('Database')) return;
+		
+		Database::initialize($configuration);
 		Database::connect();
 	}
 	
 	private function initializeController() {
-		$ControllerName = $this->getRequest()->getController() . 'Controller';
-		if (!class_exists($ControllerName)) throw new FatalError('Invalid controller', $ControllerName);
+		$name = $this->getRequest()->getController() . 'Controller';
+		if (!class_exists($name)) throw new FatalError('Invalid controller', $name);
 		
-		$this->setController($this->getInstance($ControllerName));
+		$this->setController($this->getInstance($name));
 		$this->getController()->setConfiguration($this->getConfiguration());
 		$this->getController()->setSession($this->getSession());
 	}
