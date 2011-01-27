@@ -138,8 +138,8 @@ class Application {
 		return !is_null($field) ? (isset($this->configuration[$field]) ? $this->configuration[$field] : NULL) : $this->configuration;
 	}
 	
-	protected function displayView($View, $variables = array()) {
+	protected function displayView($view, $variables = array()) {
 		extract($variables);		
-		include $this->getApplication()->getPath() . 'views/' . $View;
+		include $this->getApplication()->getPath() . 'views/' . $view;
 	}
 }
