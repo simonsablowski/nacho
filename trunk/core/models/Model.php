@@ -196,11 +196,13 @@ abstract class Model extends Application {
 		return in_array($field, $this->fields);
 	}
 	
-	public function getData($field = NULL) {
+	public function getData($field = NULL, $hideFields = TRUE) {
 		if (is_null($field)) {
 			$data = $this->data;
-			foreach ($this->getHiddenFields() as $field) {
-				unset($data[$field]);
+			if ($hideFields) {
+				foreach ($this->getHiddenFields() as $field) {
+					unset($data[$field]);
+				}
 			}
 			return $data;
 		} else if (isset($this->data[$field])) {
@@ -226,7 +228,7 @@ abstract class Model extends Application {
 	
 	public function create() {
 		$this->prepareCreating();
-		return Database::insert($this->getTableName(), $this->getData());
+		return Database::insert($this->getTableName(), $this->getData(NULL, FALSE));
 	}
 	
 	protected function prepareUpdating() {
@@ -235,7 +237,7 @@ abstract class Model extends Application {
 	
 	public function update() {
 		$this->prepareUpdating();
-		return Database::update($this->getTableName(), $this->getData(), $this->getPrimaryKeyValue(), 1);
+		return Database::update($this->getTableName(), $this->getData(NULL, FALSE), $this->getPrimaryKeyValue(), 1);
 	}
 	
 	protected function prepareDeleting() {
@@ -245,17 +247,17 @@ abstract class Model extends Application {
 	
 	public function delete() {
 		$this->prepareDeleting();
-		return Database::update($this->getTableName(), $this->getData(), $this->getPrimaryKeyValue(), 1);
+		return Database::update($this->getTableName(), $this->getData(NULL, FALSE), $this->getPrimaryKeyValue(), 1);
 	}
 	
 	public function saveSafely($condition = array('status' => NULL)) {
 		$className = get_class($this);
 		try {
 			$Object = $className::find($this->getPrimaryKeyValue(), $condition);
-			$Object->setData($this->getData());
+			$Object->setData($this->getData(NULL, FALSE));
 			$Object->update();
 		} catch (Error $Error) {
-			$Object = new $className($this->getData());
+			$Object = new $className($this->getData(NULL, FALSE));
 			$Object->save();
 		}
 	}
