@@ -219,13 +219,13 @@ abstract class Model extends Application {
 		}
 	}
 	
-	protected function prepareSaving() {
+	protected function prepareCreating() {
 		if ($this->isField('status')) $this->setStatus('active');
 		if ($this->isField('created')) $this->setData('created', 'NOW()');
 	}
 	
-	public function save() {
-		$this->prepareSaving();
+	public function create() {
+		$this->prepareCreating();
 		return Database::insert($this->getTableName(), $this->getData());
 	}
 	

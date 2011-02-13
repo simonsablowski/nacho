@@ -3,8 +3,9 @@
 class Application {
 	private $path = NULL;
 	protected $configuration = array();
+	protected $Reflection = NULL;
 	private $ErrorHandler = NULL;
-	private $Request = NULL;
+	protected $Request = NULL;
 	protected $OutputBuffer = NULL;
 	protected $Session = NULL;
 	private $Controller = NULL;
@@ -70,6 +71,7 @@ class Application {
 	private function getInstance($className, $parameters = NULL) {
 		$Instance = new $className($parameters);
 		$Instance->setApplication($this);
+		$Instance->initializeReflection();
 		
 		return $Instance;
 	}
@@ -90,11 +92,16 @@ class Application {
 	private function setup($query) {
 		if ($header = $this->getConfiguration('header')) header($header);
 		
+		$this->initializeReflection();
 		$this->initializeSession();
 		$this->initializeErrorHandler();
 		$this->initializeRequest($query);
 		$this->initializeDatabase();
 		$this->initializeController();
+	}
+	
+	private function initializeReflection() {
+		$this->setReflection(new ReflectionClass($this));
 	}
 	
 	private function initializeSession() {
@@ -127,11 +134,20 @@ class Application {
 		
 		$this->setController($this->getInstance($name));
 		$this->getController()->setConfiguration($this->getConfiguration());
+		$this->getController()->setRequest($this->getRequest());
 		$this->getController()->setSession($this->getSession());
 	}
 	
 	protected static function getClassName() {
 		return get_called_class();
+	}
+	
+	protected function hasMethod($methodName) {
+		return $this->getReflection()->hasMethod($methodName);
+	}
+	
+	protected function getMethod($methodName) {
+		return $this->getReflection()->getMethod($methodName);
 	}
 	
 	protected function getConfiguration($field = NULL) {
