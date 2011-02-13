@@ -2,17 +2,13 @@
 
 error_reporting(E_ALL);
 
-$pathCore = dirname(__FILE__) . '/../../core/';
-$pathApplication = dirname(__FILE__) . '/../';
-
-require_once $pathCore . 'Application.php';
-require_once $pathApplication . 'configuration.php';
+require_once dirname(__FILE__) . '/../configuration.php';
 
 function __autoload($className) {
-	global $pathCore, $pathApplication;
+	global $configuration;
 	
-	if (!findClass($className, $pathApplication)) {
-		findClass($className, $pathCore);
+	foreach ($configuration['includeDirectories'] as $includeDirectory) {
+		if (!findClass($className, $includeDirectory)) continue;
 	}
 }
 
@@ -26,7 +22,11 @@ function findClass($className, $filePath) {
 	} else if (file_exists($filePath . ($fileName = 'libraries/' . $className . '.php'))) {
 		include_once $filePath . $fileName;
 		return TRUE;
+	} else if (file_exists($filePath . ($fileName = $className . '.php'))) {
+		include_once $filePath . $fileName;
+		return TRUE;
 	}
+	
 	return FALSE;
 }
 
