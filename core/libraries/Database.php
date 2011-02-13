@@ -7,7 +7,12 @@ class Database {
 	protected static $requiredFields = array();
 	
 	public static function __callStatic($method, $parameters) {
+		if (!self::isInitialized()) throw new FatalError('Database not initialized');
 		return call_user_func_array(array(self::getClassName(), $method), $parameters);
+	}
+	
+	protected static function isInitialized() {
+		return !is_null(self::getClassName());
 	}
 	
 	final public static function initialize($configuration) {
