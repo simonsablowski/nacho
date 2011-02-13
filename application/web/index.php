@@ -8,23 +8,19 @@ function __autoload($className) {
 	global $configuration;
 	
 	foreach ($configuration['includeDirectories'] as $includeDirectory) {
-		if (!findClass($className, $includeDirectory)) continue;
+		if (findClass($className, $includeDirectory)) return;
 	}
 }
 
 function findClass($className, $filePath) {
 	if (($namePart = strstr($className, 'Controller', TRUE)) !== FALSE && file_exists($filePath . ($fileName = 'controllers/' . $namePart . 'Controller.php'))) {
-		include_once $filePath . $fileName;
-		return TRUE;
+		return include_once $filePath . $fileName;
 	} else if (file_exists($filePath . ($fileName = 'models/' . $className . '.php'))) {
-		include_once $filePath . $fileName;
-		return TRUE;
+		return include_once $filePath . $fileName;
 	} else if (file_exists($filePath . ($fileName = 'libraries/' . $className . '.php'))) {
-		include_once $filePath . $fileName;
-		return TRUE;
+		return include_once $filePath . $fileName;
 	} else if (file_exists($filePath . ($fileName = $className . '.php'))) {
-		include_once $filePath . $fileName;
-		return TRUE;
+		return include_once $filePath . $fileName;
 	}
 	
 	return FALSE;

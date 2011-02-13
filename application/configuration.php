@@ -7,8 +7,8 @@ $configuration['pathApplication'] = dirname(__FILE__) . '/';
 $configuration['basePath'] = '/nacho/application/web/';
 
 $configuration['includeDirectories'] = array(
-	$configuration['pathApplication'] . 'application/'
-	$configuration['pathApplication'] . 'core/',
+	$configuration['pathApplication'],
+	$configuration['pathApplication'] . '../core/'
 );
 
 $configuration['defaultQuery'] = 'Food/index';
