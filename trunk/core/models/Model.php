@@ -72,7 +72,7 @@ abstract class Model extends Application {
 	}
 	
 	public static function find($primaryKeyValue, $condition = NULL) {
-		$condition = array_merge(is_array($primaryKeyValue) ? $primaryKeyValue : array(self::getPrimaryKey() => $primaryKeyValue), self::resolveCondition($condition));
+		$condition = array_merge(is_array($primaryKeyValue) ? $primaryKeyValue : array(self::$primaryKey => $primaryKeyValue), self::resolveCondition($condition));
 		$result = Database::select(self::getTableName(), $condition, 1);
 		$row = Database::fetch($result);
 		if (!$row) throw new Error('Record not found', array('Primary key value' => $primaryKeyValue, 'Condition' => $condition));
@@ -180,11 +180,11 @@ abstract class Model extends Application {
 	
 	protected function getPrimaryKeyValue() {
 		$primaryKeyValue = array();
-		if (is_string($this->getPrimaryKey())) {
-			$getterName = 'get' . ucfirst($this->getPrimaryKey());
-			$primaryKeyValue[$this->getPrimaryKey()] = $this->$getterName();
-		} else if (is_array($this->getPrimaryKey())) {
-			foreach ($this->getPrimaryKey() as $field) {
+		if (is_string(self::$primaryKey)) {
+			$getterName = 'get' . ucfirst(self::$primaryKey);
+			$primaryKeyValue[self::$primaryKey] = $this->$getterName();
+		} else if (is_array(self::$primaryKey)) {
+			foreach (self::$primaryKey as $field) {
 				$getterName = 'get' . ucfirst($field);
 				$primaryKeyValue[$field] = $this->$getterName();
 			}

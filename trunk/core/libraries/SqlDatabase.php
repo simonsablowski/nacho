@@ -69,18 +69,18 @@ abstract class SqlDatabase extends Database {
 	}
 	
 	public static function insert($tableName, $data) {
-		$statement = sprintf("INSERT INTO `%s` SET\n", $tableName);
+		$statement = sprintf("INSERT INTO `%s` SET", $tableName);
 		foreach ($data as $field => $value) {
-			$statement .= sprintf("`%s` = %s\n", $field, self::format($value));
+			$statement .= sprintf("\n`%s` = %s", $field, self::format($value));
 		}
 		
 		return self::query($statement);
 	}
 	
 	public static function update($tableName, $data, $condition, $limit = NULL) {
-		$statement = sprintf("UPDATE `%s` SET\n", $tableName);
+		$statement = sprintf("UPDATE `%s` SET", $tableName);
 		foreach ($data as $field => $value) {
-			$statement .= sprintf("`%s` = %s\n", $field, self::format($value));
+			$statement .= sprintf("\n`%s` = %s", $field, self::format($value));
 		}
 		self::addCondition($statement, $condition);
 		
@@ -88,7 +88,7 @@ abstract class SqlDatabase extends Database {
 	}
 	
 	public static function delete($tableName, $condition, $limit = NULL) {
-		$statement = sprintf("DELETE FROM `%s`\n", $tableName);
+		$statement = sprintf("DELETE FROM `%s`", $tableName);
 		self::addCondition($statement, $condition);
 		
 		return self::query($statement);
