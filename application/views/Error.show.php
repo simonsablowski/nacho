@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta http-equiv="Content-Language" content="en"/>
 		<title>Error</title>
-		<link href="<? echo $this->getApplication()->getConfiguration('baseDirectory'); ?>css/style.css" rel="stylesheet" title="Default" type="text/css" />
+		<link href="<? echo $this->getApplication()->getConfiguration('basePath'); ?>css/style.css" rel="stylesheet" title="Default" type="text/css" />
 	</head>
 	<body>
 		<div id="document">
@@ -15,48 +15,47 @@
 				we encountered an error:
 			</h2>
 			<dl class="content">
-				<dt>
+				<dt class="head">
+					Description
+				</dt>
+				<dd class="head">
+					&nbsp;
+				</dd>
+				<dt class="even">
 					Type:
 				</dt>
-				<dd>
+				<dd class="even">
 					<? echo $Error->getType(); ?>
 
 				</dd>
-<? if ($Error->getCode()): ?>
-				<dt>
-					Code:
-				</dt>
-				<dd>
-					<? echo $Error->getCode(); ?>
-
-				</dd>
-<? endif; ?>
 <? if ($Error->getMessage()): ?>
-				<dt>
+				<dt class="odd">
 					Message:
 				</dt>
-				<dd>
+				<dd class="odd">
 					<? echo $Error->getMessage(); ?>
 
 				</dd>
 <? endif; ?>
 <? if ($this->getApplication()->getConfiguration('debugMode')): ?>
 <? if ($Error->getDetails()): ?>
-				<dt>
+				<dt class="even">
 					Details:
 				</dt>
-				<dd>
+				<dd class="even">
 					<? print_r($Error->getDetails()); ?>
 
 				</dd>
 <? endif; ?>
 <? if ($Error->getTrace()): ?>
-				<dt>
+				<dt class="odd">
 					Trace:
 				</dt>
-				<dd>
+				<dd class="odd">
+					<div class="highlight">
 <? var_dump($Error->getTrace()); ?>
 
+					</div>
 				</dd>
 <? endif; ?>
 <? endif; ?>
