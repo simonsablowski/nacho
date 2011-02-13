@@ -35,4 +35,18 @@ class Request extends Application {
 		
 		$this->setParameters(array_slice($segments, 2));
 	}
+	
+	protected function escape($data) {
+		return $data;
+	}
+	
+	public function getData($field = NULL) {
+		if (is_null($field)) {
+			return $this->escape($_REQUEST);
+		} else if (isset($_REQUEST[$field])) {
+			return $this->escape($_REQUEST[$field]);
+		} else {
+			return NULL;
+		}
+	}
 }

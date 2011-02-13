@@ -64,7 +64,7 @@ class Application {
 	
 	public function __construct($configuration) {
 		$this->setConfiguration($configuration);
-		$this->setPath($path = $this->getPath() ? $path : dirname(__FILE__) . '/../application/');
+		$this->setPath(($path = $this->getConfiguration('pathApplication')) ? $path : dirname(__FILE__) . '/../application/');
 	}
 	
 	private function getInstance($className, $parameters = NULL) {
