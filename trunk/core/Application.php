@@ -3,11 +3,12 @@
 class Application {
 	private $path = NULL;
 	protected $configuration = array();
-	protected $Reflection = NULL;
-	private $ErrorHandler = NULL;
-	protected $Request = NULL;
 	protected $OutputBuffer = NULL;
+	protected $Reflection = NULL;
 	protected $Session = NULL;
+	private $ErrorHandler = NULL;
+	protected $Localization = NULL;
+	protected $Request = NULL;
 	private $Controller = NULL;
 	protected $Application = NULL;
 	protected $variables = array();
@@ -79,8 +80,7 @@ class Application {
 	
 	public function run($query) {
 		try {
-			$this->setOutputBuffer($this->getInstance('OutputBuffer'));
-			$this->getOutputBuffer()->start();
+			$this->initializeOutputBuffer();
 			$this->setup($query);
 			$this->getController()->performAction($this->getRequest()->getAction(), $this->getRequest()->getParameters());
 			$this->getOutputBuffer()->flush();
@@ -90,12 +90,18 @@ class Application {
 		}
 	}
 	
+	private function initializeOutputBuffer() {
+		$this->setOutputBuffer($this->getInstance('OutputBuffer'));
+		$this->getOutputBuffer()->start();
+	}
+	
 	private function setup($query) {
 		if ($header = $this->getConfiguration('header')) header($header);
 		
 		$this->initializeReflection();
 		$this->initializeSession();
 		$this->initializeErrorHandler();
+		$this->initializeLocalization();
 		$this->initializeRequest($query);
 		$this->initializeDatabase();
 		$this->initializeController();
@@ -114,6 +120,12 @@ class Application {
 		$this->setErrorHandler($this->getInstance('ErrorHandler'));
 		$this->getErrorHandler()->setOutputBuffer($this->getOutputBuffer());
 		$this->getErrorHandler()->setSession($this->getSession());
+	}
+	
+	private function initializeLocalization() {
+		$this->setLocalization($this->getInstance('Localization'));
+		$this->getLocalization()->setConfiguration($this->getConfiguration('Localization'));
+		$this->getLocalization()->prepare();
 	}
 	
 	private function initializeRequest($query) {
@@ -135,8 +147,9 @@ class Application {
 		
 		$this->setController($this->getInstance($name));
 		$this->getController()->setConfiguration($this->getConfiguration());
-		$this->getController()->setRequest($this->getRequest());
 		$this->getController()->setSession($this->getSession());
+		$this->getController()->setLocalization($this->getLocalization());
+		$this->getController()->setRequest($this->getRequest());
 	}
 	
 	protected static function getClassName() {
@@ -149,6 +162,10 @@ class Application {
 	
 	protected function getMethod($methodName) {
 		return $this->getReflection()->getMethod($methodName);
+	}
+	
+	protected function localize($string, $replacements = NULL) {
+		return $this->getLocalization()->getLocalized($string, $replacements);
 	}
 	
 	protected function getConfiguration($field = NULL) {
