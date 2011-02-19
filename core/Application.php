@@ -65,9 +65,25 @@ class Application {
 		}
 	}
 	
-	public function __construct($configuration) {
+	public function __construct($configuration, $localization = NULL) {
 		$this->setConfiguration($configuration);
 		$this->setPath(($path = $this->getConfiguration('pathApplication')) ? $path : dirname(__FILE__) . '/../application/');
+		if (isset($configuration['Localization'])) {
+			if (is_null($localization) && isset($configuration['Localization']['default'])) {
+				$localization = $configuration['Localization']['default'];
+			}
+			if (isset($configuration['Localization'][$localization])) {
+				$configurationLocalization = $configuration['Localization'][$localization];
+			} else {
+				$configurationLocalization = array(
+					'language' => $localization,
+					'locale' => $localization
+				);
+			}
+			$this->setConfiguration(array_merge($configuration, array(
+				'Localization' => $configurationLocalization
+			)));
+		}
 	}
 	
 	private function getInstance($className, $parameters = NULL) {

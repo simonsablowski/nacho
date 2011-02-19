@@ -10,15 +10,15 @@ class Localization extends Application {
 	}
 	
 	public function prepare() {
+		if (!file_exists($filePath = $this->getApplication()->getPath() . 'localization/' . ($fileName = $this->getConfiguration('language') . '.po'))) {
+			throw new FatalError('Localization file not found', $fileName);
+		}
+		
 		if ($language = $this->getConfiguration('language') && $locale = $this->getConfiguration('locale')) {
 			$this->setLanguage($language);
 			setlocale(LC_ALL, $this->setLocale($locale));
 		} else {
 			throw new FatalError('Localization configuration incomplete, language and locale are required', $this->getConfiguration());
-		}
-		
-		if (!file_exists($filePath = $this->getApplication()->getPath() . 'localization/' . ($fileName = $this->getConfiguration('language') . '.po'))) {
-			throw new FatalError('Localization file not found', $fileName);
 		}
 		
 		$lines = file_get_contents($filePath);
