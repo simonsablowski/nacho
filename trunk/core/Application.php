@@ -123,9 +123,12 @@ class Application {
 	}
 	
 	private function initializeLocalization() {
+		if (!$configuration = $this->getConfiguration('Localization')) return;
+		
 		$this->setLocalization($this->getInstance('Localization'));
 		$this->getLocalization()->setConfiguration($this->getConfiguration('Localization'));
 		$this->getLocalization()->prepare();
+		$this->getErrorHandler()->setLocalization($this->getLocalization());
 	}
 	
 	private function initializeRequest($query) {
@@ -165,6 +168,8 @@ class Application {
 	}
 	
 	protected function localize($string, $replacements = NULL) {
+		if (!is_object($this->getLocalization())) return Localization::getReplaced($string, $replacements);
+		
 		return $this->getLocalization()->getLocalized($string, $replacements);
 	}
 	

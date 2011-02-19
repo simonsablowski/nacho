@@ -31,7 +31,7 @@ class Localization extends Application {
 		}
 	}
 	
-	protected function getReplaced($localized, $replacements) {
+	protected static function getReplaced($localized, $replacements) {
 		return vsprintf($localized, is_array($replacements) ? $replacements : array(1 => $replacements));
 	}
 	
