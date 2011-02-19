@@ -12,7 +12,7 @@ class Localization extends Application {
 	public function prepare() {
 		if ($language = $this->getConfiguration('language') && $locale = $this->getConfiguration('locale')) {
 			$this->setLanguage($language);
-			$this->setLocale($locale);
+			setlocale(LC_ALL, $this->setLocale($locale));
 		} else {
 			throw new FatalError('Localization configuration incomplete, language and locale are required', $this->getConfiguration());
 		}
