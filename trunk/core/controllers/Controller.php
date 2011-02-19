@@ -6,15 +6,14 @@ abstract class Controller extends Application {
 	}
 	
 	protected function performAction($actionName, $parameters) {
-		$Reflection = new ReflectionClass($this);
-		if (!$Reflection->hasMethod($actionName)) {
+		if (!$this->hasMethod($actionName) || !$this->getMethod($actionName)->isPublic()) {
 			throw new FatalError('Invalid action', array('Controller' => $this->getClassName(), 'Action' => $actionName, 'Parameters' => $parameters));
 		}
 		
-		if (count($Reflection->getMethod($actionName)->getParameters()) <= count($parameters)) {
-			call_user_func_array(array($this, $actionName), $parameters);
-		} else {
+		if (count($this->getMethod($actionName)->getParameters()) > count($parameters)) {
 			throw new FatalError('Missing parameters', array('Controller' => $this->getClassName(), 'Action' => $actionName, 'Parameters' => $parameters));
 		}
+		
+		call_user_func_array(array($this, $actionName), $parameters);
 	}
 }
