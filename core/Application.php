@@ -133,7 +133,7 @@ class Application {
 	
 	private function initializeRequest($query) {
 		$this->setRequest($this->getInstance('Request', $query));
-		$this->getRequest()->setConfiguration($this->getConfiguration());
+		$this->getRequest()->setConfiguration($this->getConfiguration('Request'));
 		$this->getRequest()->analyze();
 	}
 	
