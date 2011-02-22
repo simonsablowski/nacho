@@ -50,7 +50,7 @@ class Application {
 	}
 	
 	public static function __callStatic($method, $parameters) {
-		$className = get_called_class();
+		$className = self::getClassName();
 		
 		list($operation, $property, $propertyExists) = self::resolveMethod($className, $method);
 		if (!$propertyExists) throw new FatalError('Undeclared property', $property);
