@@ -6,7 +6,7 @@ abstract class Model extends Application {
 		'status' => 'active'
 	);
 	protected static $defaultSorting = array(
-		'created'
+		'created' => 'descending'
 	);
 	protected $fields = array();
 	protected $requiredFields = array();
