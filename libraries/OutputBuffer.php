@@ -9,6 +9,10 @@ class OutputBuffer extends Application {
 		return ob_start();
 	}
 	
+	public function read() {
+		return ob_get_contents();
+	}
+	
 	public function clean() {
 		return ob_clean();
 	}
