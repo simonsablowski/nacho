@@ -23,7 +23,7 @@ abstract class Model extends Application {
 	}
 	
 	public static function __callStatic($method, $parameters) {
-		list($operation, , , , $methodParts) = self::resolveMethod(get_called_class(), $method);
+		list($operation, , , , $methodParts) = self::resolveMethod(self::getClassName(), $method);
 		if ($operation != 'find') return parent::__callStatic($method, $parameters);
 		
 		array_shift($methodParts[0]);
@@ -174,20 +174,22 @@ abstract class Model extends Application {
 			if (!$this->isField($property)) continue;
 			$this->setData($property, $value);
 		}
+		
+		$this->setPrimaryKeyValue();
 	}
 	
-	protected function getPrimaryKeyValue() {
+	protected function setPrimaryKeyValue() {
 		$className = $this->getClassName();
 		
-		$primaryKeyValue = array();
+		$this->primaryKeyValue = array();
 		if (is_string($className::$primaryKey)) {
-			$primaryKeyValue[$className::$primaryKey] = $this->getData($className::$primaryKey);
+			$this->primaryKeyValue[$className::$primaryKey] = $this->getData($className::$primaryKey);
 		} else if (is_array($className::$primaryKey)) {
 			foreach ($className::$primaryKey as $field) {
-				$primaryKeyValue[$field] = $this->getData($field);
+				$this->primaryKeyValue[$field] = $this->getData($field);
 			}
 		}
-		return $primaryKeyValue;
+		return $this->primaryKeyValue;
 	}
 	
 	public function isField($field) {
@@ -253,10 +255,10 @@ abstract class Model extends Application {
 		try {
 			$Object = $className::find($this->getPrimaryKeyValue(), $condition);
 			$Object->setData($this->getData(NULL, FALSE));
-			$Object->update();
+			return $Object->update();
 		} catch (Error $Error) {
 			$Object = new $className($this->getData(NULL, FALSE));
-			$Object->save();
+			return $Object->save();
 		}
 	}
 	
