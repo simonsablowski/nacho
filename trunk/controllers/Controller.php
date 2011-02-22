@@ -14,6 +14,10 @@ abstract class Controller extends Application {
 			throw new FatalError('Missing parameters', array('Controller' => $this->getClassName(), 'Action' => $actionName, 'Parameters' => $parameters));
 		}
 		
+		if ($this->hasMethod('autoload')) {
+			spl_autoload_register(array($this, 'autoload'));
+		}
+		
 		call_user_func_array(array($this, $actionName), $parameters);
 	}
 }
