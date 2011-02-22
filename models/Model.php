@@ -97,7 +97,7 @@ abstract class Model extends Application {
 		$isField = FALSE;
 		$hasLoader = FALSE;
 		
-		if (method_exists($this, 'load' . $property) || property_exists($this, $property . 'Id')) {
+		if (method_exists($this, 'load' . $property) || $this->isField($property . 'Id')) {
 			$hasLoader = TRUE;
 		}
 		
@@ -136,7 +136,7 @@ abstract class Model extends Application {
 					return $this->$property != FALSE;
 				}
 			case 'load':
-				if ($isField & $hasLoader) {
+				if ($hasLoader) {
 					return $this->$property = $property::find($this->getData($property . 'Id'));
 				}
 			case 'set':
