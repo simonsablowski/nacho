@@ -137,8 +137,7 @@ abstract class Model extends Application {
 				}
 			case 'load':
 				if ($isField & $hasLoader) {
-					$getterName = 'get' . $property . 'Id';
-					return $this->$property = $property::find($this->$getterName());
+					return $this->$property = $property::find($this->getData($property . 'Id'));
 				}
 			case 'set':
 				if ($isField) {
@@ -173,20 +172,19 @@ abstract class Model extends Application {
 		
 		foreach ($data as $property => $value) {
 			if (!$this->isField($property)) continue;
-			$setter = 'set' . ucfirst($property);
-			$this->$setter($value);
+			$this->setData($property, $value);
 		}
 	}
 	
 	protected function getPrimaryKeyValue() {
+		$className = $this->getClassName();
+		
 		$primaryKeyValue = array();
-		if (is_string(self::$primaryKey)) {
-			$getterName = 'get' . ucfirst(self::$primaryKey);
-			$primaryKeyValue[self::$primaryKey] = $this->$getterName();
-		} else if (is_array(self::$primaryKey)) {
-			foreach (self::$primaryKey as $field) {
-				$getterName = 'get' . ucfirst($field);
-				$primaryKeyValue[$field] = $this->$getterName();
+		if (is_string($className::$primaryKey)) {
+			$primaryKeyValue[$className::$primaryKey] = $this->getData($className::$primaryKey);
+		} else if (is_array($className::$primaryKey)) {
+			foreach ($className::$primaryKey as $field) {
+				$primaryKeyValue[$field] = $this->getData($field);
 			}
 		}
 		return $primaryKeyValue;
