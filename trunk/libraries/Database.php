@@ -7,15 +7,15 @@ class Database {
 	protected static $requiredFields = array();
 	
 	public static function __callStatic($method, $parameters) {
-		if (!self::isInitialized()) throw new FatalError('Database not initialized');
+		if (!self::isSetup()) throw new FatalError('Database not setup');
 		return call_user_func_array(array(self::getClassName(), $method), $parameters);
 	}
 	
-	protected static function isInitialized() {
+	protected static function isSetup() {
 		return !is_null(self::getClassName());
 	}
 	
-	final public static function initialize($configuration) {
+	final public static function setup($configuration) {
 		self::setClassName($configuration['type'] . 'Database');
 		
 		foreach (self::getRequiredFields() as $field) {

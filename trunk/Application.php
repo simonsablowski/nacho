@@ -90,50 +90,53 @@ class Application {
 	private function getInstance($className, $parameters = NULL) {
 		$Instance = new $className($parameters);
 		$Instance->setApplication($this);
-		$Instance->initializeReflection();
+		$Instance->setupReflection();
 		
 		return $Instance;
 	}
 	
 	public function run($query) {
-		$this->initializeOutputBuffer();
 		$this->setup($query);
 		$this->getController()->performAction($this->getRequest()->getAction(), $this->getRequest()->getParameters());
 	}
 	
-	private function initializeOutputBuffer() {
+	private function setup($query) {
+		$this->setupOutputBuffer();
+		$this->setupHeader();
+		$this->setupReflection();
+		$this->setupSession();
+		$this->setupErrorHandler();
+		$this->setupLocalization();
+		$this->setupRequest($query);
+		$this->setupDatabase();
+		$this->setupController();
+	}
+	
+	private function setupOutputBuffer() {
 		$this->setOutputBuffer($this->getInstance('OutputBuffer'));
 		$this->getOutputBuffer()->start();
 	}
 	
-	private function setup($query) {
+	private function setupHeader() {
 		if ($header = $this->getConfiguration('header')) header($header);
-		
-		$this->initializeReflection();
-		$this->initializeSession();
-		$this->initializeErrorHandler();
-		$this->initializeLocalization();
-		$this->initializeRequest($query);
-		$this->initializeDatabase();
-		$this->initializeController();
 	}
 	
-	private function initializeReflection() {
+	private function setupReflection() {
 		$this->setReflection(new ReflectionClass($this));
 	}
 	
-	private function initializeSession() {
+	private function setupSession() {
 		$this->setSession($this->getInstance('Session'));
 		$this->getSession()->start();
 	}
 	
-	private function initializeErrorHandler() {
+	private function setupErrorHandler() {
 		$this->setErrorHandler($this->getInstance('ErrorHandler'));
 		$this->getErrorHandler()->setOutputBuffer($this->getOutputBuffer());
 		$this->getErrorHandler()->setSession($this->getSession());
 	}
 	
-	private function initializeLocalization() {
+	private function setupLocalization() {
 		if (!$configuration = $this->getConfiguration('Localization')) return;
 		
 		$this->setLocalization($this->getInstance('Localization'));
@@ -142,20 +145,20 @@ class Application {
 		$this->getErrorHandler()->setLocalization($this->getLocalization());
 	}
 	
-	private function initializeRequest($query) {
+	private function setupRequest($query) {
 		$this->setRequest($this->getInstance('Request', $query));
 		$this->getRequest()->setConfiguration($this->getConfiguration('Request'));
 		$this->getRequest()->analyze();
 	}
 	
-	private function initializeDatabase() {
+	private function setupDatabase() {
 		if (!$configuration = $this->getConfiguration('Database')) return;
 		
-		Database::initialize($configuration);
+		Database::setup($configuration);
 		Database::connect();
 	}
 	
-	private function initializeController() {
+	private function setupController() {
 		$name = $this->getRequest()->getController() . 'Controller';
 		if (!class_exists($name)) throw new FatalError('Invalid controller', $name);
 		
