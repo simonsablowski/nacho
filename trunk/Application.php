@@ -68,6 +68,7 @@ class Application {
 	public function __construct($configuration, $localization = NULL) {
 		$this->setConfiguration($configuration);
 		$this->setPath(($path = $this->getConfiguration('pathApplication')) ? $path : dirname(__FILE__) . '/../application/');
+		
 		if (isset($configuration['Localization'])) {
 			if (is_null($localization) && isset($configuration['Localization']['default'])) {
 				$localization = $configuration['Localization']['default'];
