@@ -96,15 +96,9 @@ class Application {
 	}
 	
 	public function run($query) {
-		try {
-			$this->initializeOutputBuffer();
-			$this->setup($query);
-			$this->getController()->performAction($this->getRequest()->getAction(), $this->getRequest()->getParameters());
-			$this->getOutputBuffer()->flush();
-		} catch (Error $Error) {
-			$this->getErrorHandler()->handle($Error);
-			$this->getOutputBuffer()->flush();
-		}
+		$this->initializeOutputBuffer();
+		$this->setup($query);
+		$this->getController()->performAction($this->getRequest()->getAction(), $this->getRequest()->getParameters());
 	}
 	
 	private function initializeOutputBuffer() {
@@ -167,6 +161,7 @@ class Application {
 		
 		$this->setController($this->getInstance($name));
 		$this->getController()->setConfiguration($this->getConfiguration());
+		$this->getController()->setOutputBuffer($this->getOutputBuffer());
 		$this->getController()->setSession($this->getSession());
 		$this->getController()->setLocalization($this->getLocalization());
 		$this->getController()->setRequest($this->getRequest());
