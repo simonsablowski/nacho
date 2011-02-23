@@ -3,6 +3,7 @@
 class ErrorHandler extends Application {
 	public function __construct() {
 		set_error_handler(array($this, 'handleError'));
+		set_exception_handler(array($this, 'handleException'));
 	}
 	
 	public function handleError($number, $message, $file = NULL, $line = NULL, $context = NULL) {
@@ -14,10 +15,11 @@ class ErrorHandler extends Application {
 		));
 	}
 	
-	public function handle(Error $Error) {
+	public function handleException(Error $Error) {
 		$this->getOutputBuffer()->clean();
 		$this->displayView('Error.show.php', array(
 			'Error' => $Error
 		));
+		$this->getOutputBuffer()->flush();
 	}
 }

@@ -19,5 +19,7 @@ abstract class Controller extends Application {
 		}
 		
 		call_user_func_array(array($this, $actionName), $parameters);
+		
+		$this->getOutputBuffer()->flush();
 	}
 }
