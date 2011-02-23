@@ -42,7 +42,7 @@ abstract class SqlDatabase extends Database {
 		$statement .= sprintf("\nORDER BY ");
 		$comma = FALSE;
 		foreach ($sorting as $column => $direction) {
-			$direction = stripos('asc', $direction) ? 'ASC' : 'DESC';
+			$direction = stripos($direction, 'asc') !== FALSE ? 'ASC' : 'DESC';
 			$statement .= $comma ? ', ' : '';
 			$statement .= sprintf("`%s` %s", $column, $direction);
 			$comma = TRUE;
