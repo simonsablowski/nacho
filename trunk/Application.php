@@ -69,6 +69,8 @@ class Application {
 		$this->setConfiguration($configuration);
 		$this->setPath(($path = $this->getConfiguration('pathApplication')) ? $path : dirname(__FILE__) . '/../application/');
 		
+		$this->registerAutoload();
+		
 		if (isset($configuration['Localization'])) {
 			if (is_null($localization) && isset($configuration['Localization']['default'])) {
 				$localization = $configuration['Localization']['default'];
@@ -85,6 +87,32 @@ class Application {
 				'Localization' => $configurationLocalization
 			)));
 		}
+	}
+	
+	protected function registerAutoload() {
+		spl_autoload_register(array($this, 'autoload'));
+	}
+	
+	protected function autoload($className) {
+		foreach ($this->getConfiguration('includeDirectories') as $includeDirectory) {
+			if ($this->findClass($className, $includeDirectory)) return TRUE;
+		}
+		
+		return FALSE;
+	}
+	
+	protected function findClass($className, $filePath) {
+		if (($namePart = strstr($className, 'Controller', TRUE)) !== FALSE && file_exists($filePath . ($fileName = 'controllers/' . $namePart . 'Controller.php'))) {
+			return include_once $filePath . $fileName;
+		} else if (file_exists($filePath . ($fileName = 'models/' . $className . '.php'))) {
+			return include_once $filePath . $fileName;
+		} else if (file_exists($filePath . ($fileName = 'libraries/' . $className . '.php'))) {
+			return include_once $filePath . $fileName;
+		} else if (file_exists($filePath . ($fileName = $className . '.php'))) {
+			return include_once $filePath . $fileName;
+		}
+		
+		return FALSE;
 	}
 	
 	private function getInstance($className, $parameters = NULL) {
@@ -186,6 +214,15 @@ class Application {
 		if (!is_object($this->getLocalization())) return Localization::getReplaced($string, $replacements);
 		
 		return $this->getLocalization()->getLocalized($string, $replacements);
+	}
+	
+	protected function setConfiguration() {
+		if (func_num_args() == 2) {
+			return $this->configuration[func_get_arg(0)] = func_get_arg(1);
+		} else if (func_num_args() == 1) {
+			$configuration = func_get_arg(0);
+			return $this->configuration = array_merge($this->configuration, $configuration);
+		}
 	}
 	
 	protected function getConfiguration($field = NULL) {
