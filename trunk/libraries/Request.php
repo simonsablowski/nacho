@@ -24,7 +24,8 @@ class Request extends Application {
 	}
 	
 	public function analyze() {
-		$segments = explode('/', $this->resolveQuery());
+		$segmentSeparator = ($segmentSeparator = $this->getConfiguration('segmentSeparator')) ? $segmentSeparator : '/';
+		$segments = explode($segmentSeparator, $this->resolveQuery());
 		if (is_string($segments)) $segments = array($segments);
 		
 		if (isset($segments[0]) && $segments[0]) $this->setController($segments[0]);
