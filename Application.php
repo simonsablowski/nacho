@@ -165,14 +165,14 @@ class Application {
 		if (!$configuration = $this->getConfiguration('Localization')) return;
 		
 		$this->setLocalization($this->getInstance('Localization'));
-		$this->getLocalization()->setConfiguration($this->getConfiguration('Localization'));
+		$this->getLocalization()->setConfiguration($configuration);
 		$this->getLocalization()->prepare();
 		$this->getErrorHandler()->setLocalization($this->getLocalization());
 	}
 	
 	protected function setupRequest($query) {
 		$this->setRequest($this->getInstance('Request', $query));
-		$this->getRequest()->setConfiguration($this->getConfiguration('Request'));
+		$this->getRequest()->setConfiguration(($configuration = $this->getConfiguration('Request')) ? $configuration : array());
 		$this->getRequest()->analyze();
 	}
 	
