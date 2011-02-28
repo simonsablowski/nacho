@@ -1,15 +1,15 @@
 <?php
 
 class Application {
-	private $path = NULL;
+	protected $path = NULL;
 	protected $configuration = array();
 	protected $OutputBuffer = NULL;
 	protected $Reflection = NULL;
 	protected $Session = NULL;
-	private $ErrorHandler = NULL;
+	protected $ErrorHandler = NULL;
 	protected $Localization = NULL;
 	protected $Request = NULL;
-	private $Controller = NULL;
+	protected $Controller = NULL;
 	protected $Application = NULL;
 	protected $variables = array();
 	
@@ -112,7 +112,7 @@ class Application {
 		return FALSE;
 	}
 	
-	private function getInstance($className, $parameters = NULL) {
+	protected function getInstance($className, $parameters = NULL) {
 		$Instance = new $className($parameters);
 		$Instance->setApplication($this);
 		$Instance->setupReflection();
@@ -125,7 +125,7 @@ class Application {
 		$this->getController()->performAction($this->getRequest()->getAction(), $this->getRequest()->getParameters());
 	}
 	
-	private function setup($query) {
+	protected function setup($query) {
 		$this->setupOutputBuffer();
 		$this->setupHeader();
 		$this->setupReflection();
@@ -137,31 +137,31 @@ class Application {
 		$this->setupController();
 	}
 	
-	private function setupOutputBuffer() {
+	protected function setupOutputBuffer() {
 		$this->setOutputBuffer($this->getInstance('OutputBuffer'));
 		$this->getOutputBuffer()->start();
 	}
 	
-	private function setupHeader() {
+	protected function setupHeader() {
 		if ($header = $this->getConfiguration('header')) header($header);
 	}
 	
-	private function setupReflection() {
+	protected function setupReflection() {
 		$this->setReflection(new ReflectionClass($this));
 	}
 	
-	private function setupSession() {
+	protected function setupSession() {
 		$this->setSession($this->getInstance('Session'));
 		$this->getSession()->start();
 	}
 	
-	private function setupErrorHandler() {
+	protected function setupErrorHandler() {
 		$this->setErrorHandler($this->getInstance('ErrorHandler'));
 		$this->getErrorHandler()->setOutputBuffer($this->getOutputBuffer());
 		$this->getErrorHandler()->setSession($this->getSession());
 	}
 	
-	private function setupLocalization() {
+	protected function setupLocalization() {
 		if (!$configuration = $this->getConfiguration('Localization')) return;
 		
 		$this->setLocalization($this->getInstance('Localization'));
@@ -170,20 +170,20 @@ class Application {
 		$this->getErrorHandler()->setLocalization($this->getLocalization());
 	}
 	
-	private function setupRequest($query) {
+	protected function setupRequest($query) {
 		$this->setRequest($this->getInstance('Request', $query));
 		$this->getRequest()->setConfiguration($this->getConfiguration('Request'));
 		$this->getRequest()->analyze();
 	}
 	
-	private function setupDatabase() {
+	protected function setupDatabase() {
 		if (!$configuration = $this->getConfiguration('Database')) return;
 		
 		Database::setup($configuration);
 		Database::connect();
 	}
 	
-	private function setupController() {
+	protected function setupController() {
 		$name = $this->getRequest()->getController() . 'Controller';
 		if (!class_exists($name)) throw new FatalError('Invalid controller', $name);
 		
