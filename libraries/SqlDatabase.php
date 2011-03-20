@@ -42,9 +42,15 @@ abstract class SqlDatabase extends Database {
 		$statement .= sprintf("\nORDER BY ");
 		$comma = FALSE;
 		foreach ($sorting as $column => $direction) {
-			$direction = stripos($direction, 'asc') !== FALSE ? 'ASC' : 'DESC';
 			$statement .= $comma ? ', ' : '';
-			$statement .= sprintf("`%s` %s", $column, $direction);
+			
+			if (is_string($column)) {
+				$direction = stripos($direction, 'asc') !== FALSE ? 'ASC' : 'DESC';
+				$statement .= sprintf("`%s` %s", $column, $direction);
+			} else if (stripos($direction, 'rand') !== FALSE) {
+				$statement .= 'RAND()';
+			}
+			
 			$comma = TRUE;
 		}
 	}
