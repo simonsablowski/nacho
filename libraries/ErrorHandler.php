@@ -15,10 +15,10 @@ class ErrorHandler extends Application {
 		));
 	}
 	
-	public function handleException(Error $Error) {
+	public function handleException(Exception $Exception) {
 		$this->getOutputBuffer()->clean();
 		$this->displayView('Error.show.php', array(
-			'Error' => $Error
+			'Error' => $Exception
 		));
 		$this->getOutputBuffer()->flush();
 	}
