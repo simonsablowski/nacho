@@ -34,4 +34,8 @@ class MySqlDatabase extends SqlDatabase {
 	public static function escape($value) {
 		return mysql_real_escape_string($value);
 	}
+	
+	public static function getInsertId() {
+		return mysql_insert_id(self::getLink());
+	}
 }
