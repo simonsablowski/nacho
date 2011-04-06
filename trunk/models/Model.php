@@ -228,7 +228,10 @@ abstract class Model extends Application {
 	
 	public function create() {
 		$this->prepareCreating();
-		return Database::insert($this->getTableName(), $this->getData(NULL, FALSE));
+		$insert = Database::insert($this->getTableName(), $this->getData(NULL, FALSE));
+		$className = $this->getClassName();
+		if ($className::$primaryKey == 'id') $this->setId(Database::getInsertId());
+		return $insert;
 	}
 	
 	protected function prepareUpdating() {
