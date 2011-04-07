@@ -20,4 +20,8 @@ class OutputBuffer extends Application {
 	public function flush() {
 		return ob_flush();
 	}
+	
+	public function get() {
+		return ob_get_clean();
+	}
 }

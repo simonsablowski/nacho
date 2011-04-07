@@ -253,7 +253,7 @@ abstract class Model extends Application {
 		return Database::update($this->getTableName(), $this->getData(NULL, FALSE), $this->getPrimaryKeyValue(), 1);
 	}
 	
-	public function saveSafely($condition = array('status' => NULL)) {
+	public function createSafely($condition = array('status' => NULL)) {
 		$className = get_class($this);
 		try {
 			$Object = $className::find($this->getPrimaryKeyValue(), $condition);
@@ -261,7 +261,7 @@ abstract class Model extends Application {
 			return $Object->update();
 		} catch (Error $Error) {
 			$Object = new $className($this->getData(NULL, FALSE));
-			return $Object->save();
+			return $Object->create();
 		}
 	}
 	
