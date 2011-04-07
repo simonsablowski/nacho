@@ -227,7 +227,7 @@ class Application {
 	}
 	
 	protected function setVariables($variables) {
-		$this->variables = array_merge($this->variables, $variables);
+		return $this->variables = array_merge($this->variables, $variables);
 	}
 	
 	protected function displayView($view, $variables = array()) {

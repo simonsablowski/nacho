@@ -8,6 +8,7 @@ abstract class Model extends Application {
 	protected static $defaultSorting = array(
 		'created' => 'descending'
 	);
+	protected $primaryKeyValue;
 	protected $fields = array();
 	protected $requiredFields = array();
 	protected $hiddenFields = array(
