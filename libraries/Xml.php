@@ -13,7 +13,7 @@ class Xml extends Application {
 		if (is_array($value)) {
 			$dump = sprintf("%s<%s>\n", str_repeat("\t", $indent), $property);
 			foreach ($value as $itemsProperty => $itemsValue) {
-				$dump .= self::dumpProperty(is_string($itemsProperty) ? $itemsProperty : substr($property, 0, -1), $itemsValue, $indent + 1);
+				$dump .= self::dumpProperty(is_string($itemsProperty) ? $itemsProperty : 'element', $itemsValue, $indent + 1);
 			}
 			$dump .= sprintf("%s</%s>\n", str_repeat("\t", $indent), $property);
 			return $dump;
@@ -24,6 +24,19 @@ class Xml extends Application {
 	}
 	
 	public static function dumpObject($Object, $name, $indent = 0) {
-		return self::dumpProperty($name, get_object_vars($Object), $indent);
+		if (is_object($Object)) {
+			$properties = array();
+			foreach (get_object_vars($Object) as $field => $value) {
+				try {
+					$Property = new ReflectionProperty($Object->getClassName(), $field);
+					if (!$Property->isPublic()) continue;
+				} catch (ReflectionException $Exception) {
+					
+				}
+				$properties[$field] = $value;
+			}
+			return self::dumpProperty($name, $properties, $indent);
+		}
+		return NULL;
 	}
 }
