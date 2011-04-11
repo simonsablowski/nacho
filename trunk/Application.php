@@ -230,9 +230,18 @@ class Application {
 		return $this->variables = array_merge($this->variables, $variables);
 	}
 	
+	protected function isView($view) {
+		if (!file_exists($file = $this->getApplication()->getPath() . 'views/' . $view)) return FALSE;
+		return $file;
+	}
+	
 	protected function displayView($view, $variables = array()) {
+		if (!$file = $this->isView($view)) {
+			throw new FatalError('View not found', $view);
+		}
+		
 		$this->setVariables($variables);		
 		extract($this->getVariables());		
-		include $this->getApplication()->getPath() . 'views/' . $view;
+		include $file;
 	}
 }
