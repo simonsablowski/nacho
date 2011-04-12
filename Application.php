@@ -67,6 +67,7 @@ class Application {
 		$this->setPath(($path = $this->getConfiguration('pathApplication')) ? $path : dirname(__FILE__) . '/../application/');
 		
 		$this->registerAutoload();
+		$this->setExecutionTime();
 		
 		if (isset($configuration['Localization'])) {
 			if (is_null($localization) && isset($configuration['Localization']['default'])) {
@@ -110,6 +111,12 @@ class Application {
 		}
 		
 		return FALSE;
+	}
+	
+	protected function setExecutionTime() {
+		if ($executionTime = $this->getConfiguration('executionTime')) {
+			ini_set('max_execution_time', $executionTime);
+		}
 	}
 	
 	protected function getInstance($className, $parameters = NULL) {
