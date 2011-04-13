@@ -238,8 +238,11 @@ class Application {
 	}
 	
 	protected function isView($view) {
-		if (!file_exists($file = $this->getApplication()->getPath() . 'views/' . $view)) return FALSE;
-		return $file;
+		foreach ($this->getConfiguration('includeDirectories') as $includeDirectory) {
+			if (file_exists($file = $includeDirectory . 'views/' . $view)) return $file;
+		}
+		
+		return FALSE;
 	}
 	
 	protected function displayView($view, $variables = array()) {
