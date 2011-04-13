@@ -92,6 +92,10 @@ abstract class Model extends Application {
 		return new $modelName($row);
 	}
 	
+	public static function truncate() {
+		return Database::truncate(self::getTableName());
+	}
+	
 	public function __call($method, $parameters) {
 		list($operation, $property, $propertyExists, $propertyCapitalized) = $this->resolveMethod($this, $method);
 		
