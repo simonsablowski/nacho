@@ -106,4 +106,9 @@ abstract class SqlDatabase extends Database {
 		
 		return self::query($statement);
 	}
+	
+	public static function truncate($tableName) {
+		$statement = sprintf("TRUNCATE `%s`", $tableName);
+		return self::query($statement);
+	}
 }
