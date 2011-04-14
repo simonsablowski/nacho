@@ -10,7 +10,7 @@ class Localization extends Application {
 	}
 	
 	public function prepare() {
-		if (!file_exists($filePath = $this->getApplication()->getPath() . 'localization/' . ($fileName = $this->getConfiguration('language') . '.po'))) {
+		if (!file_exists($filePath = $this->getApplication()->getPath() . 'locales/' . ($fileName = $this->getConfiguration('language') . '.po'))) {
 			throw new FatalError('Localization file not found', $fileName);
 		}
 		
