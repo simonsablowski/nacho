@@ -158,6 +158,8 @@ class Application {
 	}
 	
 	protected function setupSession() {
+		if ($this->getConfiguration('ignoreSession')) return;
+		
 		$this->setSession($this->getInstance('Session'));
 		$this->getSession()->start();
 	}
