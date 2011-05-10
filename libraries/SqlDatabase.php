@@ -20,6 +20,7 @@ abstract class SqlDatabase extends Database {
 	protected static function addCondition(&$statement, $condition) {
 		if (is_null($condition)) return;
 		
+		$original = $statement;
 		$statement .= sprintf("\nWHERE ");
 		$and = FALSE;
 		foreach ($condition as $field => $value) {
@@ -28,6 +29,7 @@ abstract class SqlDatabase extends Database {
 			$statement .= sprintf("`%s` = %s", $field, self::format($value));
 			$and = TRUE;
 		}
+		if (!$and) $statement = $original;var_dump($statement);
 	}
 	
 	protected static function addLimit(&$statement, $limit) {
