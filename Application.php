@@ -92,6 +92,10 @@ class Application {
 	}
 	
 	protected function autoload($className) {
+		if ($classPaths = $this->getConfiguration('classPaths') && isset($classPaths[$className])) {
+			return include_once($classPaths[$className]);
+		}
+		
 		foreach ($this->getConfiguration('includeDirectories') as $includeDirectory) {
 			if ($this->findClass($className, $includeDirectory)) return TRUE;
 		}
