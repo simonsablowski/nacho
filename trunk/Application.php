@@ -62,6 +62,10 @@ class Application {
 		}
 	}
 	
+	protected static function stripOutNamespace(&$className) {
+		$className = ($part = strrchr($className, '\\')) ? substr($part, 1) : $className;
+	}
+	
 	public function __construct($configuration, $localization = NULL) {
 		$this->setConfiguration($configuration);
 		$this->setPath(($path = $this->getConfiguration('pathApplication')) ? $path : dirname(__FILE__) . '/../application/');
@@ -104,6 +108,8 @@ class Application {
 	}
 	
 	protected function findClass($className, $filePath) {
+		$this->stripOutNamespace($className);
+		
 		if (($namePart = strstr($className, 'Controller', TRUE)) !== FALSE && file_exists($filePath . ($fileName = 'controllers/' . $namePart . 'Controller.php'))) {
 			return include_once $filePath . $fileName;
 		} else if (file_exists($filePath . ($fileName = 'models/' . $className . '.php'))) {

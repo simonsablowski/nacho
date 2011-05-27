@@ -20,7 +20,9 @@ abstract class Model extends Application {
 	protected $data = array();
 	
 	protected static function getTableName() {
-		return strtolower(self::getClassName());
+		$tableName = self::getClassName();
+		self::stripOutNamespace($tableName);
+		return strtolower($tableName);
 	}
 	
 	public static function __callStatic($method, $parameters) {
