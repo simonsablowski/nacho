@@ -5,6 +5,7 @@ class Application {
 	protected $configuration = array();
 	protected $OutputBuffer = NULL;
 	protected $Reflection = NULL;
+	protected $Debugger = NULL;
 	protected $Session = NULL;
 	protected $ErrorHandler = NULL;
 	protected $Localization = NULL;
@@ -148,6 +149,7 @@ class Application {
 		$this->setupReflection();
 		$this->setupSession();
 		$this->setupErrorHandler();
+		$this->setupDebugger();
 		$this->setupLocalization();
 		$this->setupRequest($query);
 		$this->setupDatabase();
@@ -180,6 +182,13 @@ class Application {
 		$this->getErrorHandler()->setSession($this->getSession());
 	}
 	
+	protected function setupDebugger() {
+		if (!$configuration = $this->getConfiguration('Debugger')) return;
+		
+		$this->setDebugger($this->getInstance('Debugger'));
+		$this->getDebugger()->setConfiguration($configuration);
+	}
+	
 	protected function setupLocalization() {
 		if (!$configuration = $this->getConfiguration('Localization')) return;
 		
@@ -210,6 +219,7 @@ class Application {
 		$this->getController()->setConfiguration($this->getConfiguration());
 		$this->getController()->setOutputBuffer($this->getOutputBuffer());
 		$this->getController()->setSession($this->getSession());
+		$this->getController()->setDebugger($this->getDebugger());
 		$this->getController()->setLocalization($this->getLocalization());
 		$this->getController()->setRequest($this->getRequest());
 	}
