@@ -255,7 +255,11 @@ abstract class Model extends Application {
 		if ($this->isField('status')) $this->setStatus('deleted');
 	}
 	
-	public function delete() {
+	public function delete($permanently = FALSE) {
+		if ($permanently) {
+			return Database::delete($this->getTableName(), $this->getPrimaryKeyValue(), 1);
+		}
+		
 		$this->prepareDeleting();
 		return Database::update($this->getTableName(), $this->getData(NULL, FALSE), $this->getPrimaryKeyValue(), 1);
 	}
