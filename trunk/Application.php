@@ -260,8 +260,10 @@ class Application {
 	}
 	
 	protected function isView($view) {
+		$viewsDirectory = ($viewsDirectory = $this->getApplication()->getConfiguration('viewsDirectory')) ? $viewsDirectory : 'views/';
+		
 		foreach ($this->getApplication()->getConfiguration('includeDirectories') as $includeDirectory) {
-			if (file_exists($file = $includeDirectory . 'views/' . $view)) return $file;
+			if (file_exists($file = $includeDirectory . $viewsDirectory . $view)) return $file;
 		}
 		
 		return FALSE;
