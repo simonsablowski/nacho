@@ -109,6 +109,16 @@ abstract class SqlDatabase extends Database {
 		return self::query($statement);
 	}
 	
+	public static function lock($tableName, $type = 'write') {
+		$statement = sprintf("LOCK TABLES `%s` %s", $tableName, strtoupper($type));
+		return self::query($statement);
+	}
+	
+	public static function unlock() {
+		$statement = "UNLOCK TABLES";
+		return self::query($statement);
+	}
+	
 	public static function truncate($tableName) {
 		$statement = sprintf("TRUNCATE `%s`", $tableName);
 		return self::query($statement);

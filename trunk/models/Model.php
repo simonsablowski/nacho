@@ -94,6 +94,14 @@ abstract class Model extends Application {
 		return new $modelName($row);
 	}
 	
+	public static function lock($type = 'write') {
+		return Database::lock(self::getTableName(), $type);
+	}
+	
+	public static function unlock() {
+		return Database::unlock();
+	}
+	
 	public static function truncate() {
 		return Database::truncate(self::getTableName());
 	}
