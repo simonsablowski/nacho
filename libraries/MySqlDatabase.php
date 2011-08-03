@@ -16,7 +16,7 @@ class MySqlDatabase extends SqlDatabase {
 	}
 	
 	public static function query($statement) {
-		if (!$result = mysql_query($statement)) {
+		if (!$result = mysql_query($statement, self::getLink())) {
 			throw new FatalError('Invalid database query', self::getError());
 		} else {
 			return $result;
@@ -32,7 +32,7 @@ class MySqlDatabase extends SqlDatabase {
 	}
 	
 	public static function escape($value) {
-		return mysql_real_escape_string($value);
+		return mysql_real_escape_string($value, self::getLink());
 	}
 	
 	public static function getInsertId() {
