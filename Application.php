@@ -177,6 +177,8 @@ class Application {
 	}
 	
 	protected function setupErrorHandler() {
+		if ($this->getConfiguration('disableErrorHandler')) return;
+		
 		$this->setErrorHandler($this->getInstance('ErrorHandler'));
 		$this->getErrorHandler()->setOutputBuffer($this->getOutputBuffer());
 		$this->getErrorHandler()->setSession($this->getSession());
