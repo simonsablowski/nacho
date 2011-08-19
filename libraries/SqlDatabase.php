@@ -109,8 +109,12 @@ abstract class SqlDatabase extends Database {
 		return self::query($statement);
 	}
 	
-	public static function lock($tableName, $type = 'write') {
-		$statement = sprintf("LOCK TABLES `%s` %s", $tableName, strtoupper($type));
+	public static function lock($tableNames, $type = 'write') {
+		$statement = sprintf("LOCK TABLES");
+		foreach ($tableNames as $n => $tableName) {
+			$statement .= sprintf("\n`%s` %s", $tableName, strtoupper($type));
+			$statement .= $n + 1 < count($tableNames) ? ',' : '';
+		}
 		return self::query($statement);
 	}
 	
