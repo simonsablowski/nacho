@@ -276,8 +276,12 @@ class Application {
 			throw new FatalError('View not found', $view);
 		}
 		
-		$this->setVariables($variables);		
-		extract($this->getVariables());		
+		$this->setVariables($variables);
+		extract($this->getVariables());
 		include $file;
+	}
+	
+	protected function includeComponent($component, $variables = array()) {
+		return $this->displayView(sprintf('components/%s', $component), $variables);
 	}
 }
