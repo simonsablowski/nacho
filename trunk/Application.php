@@ -224,6 +224,7 @@ class Application {
 		$this->getController()->setDebugger($this->getDebugger());
 		$this->getController()->setLocalization($this->getLocalization());
 		$this->getController()->setRequest($this->getRequest());
+		$this->getController()->initialize();
 	}
 	
 	protected static function getClassName() {
