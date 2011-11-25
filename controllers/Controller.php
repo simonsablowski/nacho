@@ -5,6 +5,10 @@ abstract class Controller extends Application {
 		
 	}
 	
+	public function initialize() {
+		
+	}
+	
 	protected function performAction($actionName, $parameters) {
 		if (!$this->hasMethod($actionName) || !$this->getMethod($actionName)->isPublic()) {
 			throw new FatalError('Invalid action', array('Controller' => $this->getClassName(), 'Action' => $actionName, 'Parameters' => $parameters));
